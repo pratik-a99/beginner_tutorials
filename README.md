@@ -31,3 +31,5 @@ rosrun beginner_tutorials talker
 ```
 rosrun beginner_tutorials listener
 ```
+
+If the the repository is downloaded as a zip via `ros_pub_sub_Release`, extract the file to `<your_ros_workspace>/src` (eg. `catkin_ws/src`) and rename the folder to `beginner_tutorials`
