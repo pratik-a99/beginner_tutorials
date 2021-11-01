@@ -1,0 +1,4 @@
+pratik@ubuntu:~/808X-workspace/Week9/beginner_tutorials$ cpplint $(find . -name *.cpp | grep -vE -e "./build") &> cpplint.txt
+
+Done processing ./src/listener.cpp
+Done processing ./src/talker.cpp
