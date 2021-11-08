@@ -9,6 +9,16 @@
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "beginner_tutorials/serviceType.h"
+
+std::string message = "Yay! I can now count till ";
+
+bool changeOutput(beginner_tutorials::serviceType::Request &req,
+                  beginner_tutorials::serviceType::Response &resp) {
+  message = req.inputString;
+  resp.outputString = req.inputString;
+  return true;
+}
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -55,6 +65,9 @@ int main(int argc, char **argv) {
 
   ros::Rate loop_rate(10);
 
+  ros::ServiceServer service = n.advertiseService("outputService",
+                                                     &changeOutput);
+
   /**
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
@@ -67,7 +80,7 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "Yay! I can now count till " << count;
+    ss << message << count;
     msg.data = ss.str();
 
     ROS_INFO("%s", msg.data.c_str());
