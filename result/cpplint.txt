@@ -1,4 +1,6 @@
-pratik@ubuntu:~/808X-workspace/Week9/beginner_tutorials$ cpplint $(find . -name *.cpp | grep -vE -e "./build") &> cpplint.txt
-
+./src/talker.cpp:14:  Static/global string variables are not permitted.  [runtime/string] [4]
+./src/talker.cpp:24:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::serviceType::Request &req  [runtime/references] [2]
+./src/talker.cpp:25:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::serviceType::Response &resp  [runtime/references] [2]
 Done processing ./src/listener.cpp
 Done processing ./src/talker.cpp
+Total errors found: 3

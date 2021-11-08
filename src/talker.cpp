@@ -26,8 +26,10 @@ bool changeOutput(beginner_tutorials::serviceType::Request &req,
   ROS_DEBUG_STREAM("The service has been called successully");  // Debug log
 
   if (req.inputString.empty()) {
-    ROS_ERROR_STREAM("An empty string was given as service input");  // Error log
-    ROS_FATAL_STREAM("The service will be stopped due to incorrect input");  // Fatal log
+    // Error log
+    ROS_ERROR_STREAM("An empty string was given as service input");
+    // Fatal log
+    ROS_FATAL_STREAM("The service will be stopped due to incorrect input");
     return false;
   } else {
     ROS_WARN_STREAM(
