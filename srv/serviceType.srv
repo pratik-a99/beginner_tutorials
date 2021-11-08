@@ -1,0 +1,10 @@
+# A service type for talker service
+
+# Request 
+string inputString
+
+---
+
+# Response
+string outputString
+ 
