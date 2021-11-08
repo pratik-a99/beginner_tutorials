@@ -1,7 +1,7 @@
 /**
  * @copyright  MIT License (c) 2021 Pratik Acharya
  * @file  talker.cpp
- * @brief A publisher tutorial C++ node
+ * @brief A publisher and service tutorial C++ node
  * @author Pratik Acharya
  */
 
@@ -15,9 +15,20 @@ std::string message = "Yay! I can now count till ";
 
 bool changeOutput(beginner_tutorials::serviceType::Request &req,
                   beginner_tutorials::serviceType::Response &resp) {
-  message = req.inputString;
-  resp.outputString = req.inputString;
-  return true;
+  ROS_DEBUG_STREAM("The service has been called successully");
+
+  if (req.inputString.empty()) {
+    ROS_ERROR_STREAM("An empty string was given as service input");
+    ROS_FATAL_STREAM("The service will be stopped due to incorrect input");
+    return false;
+  } else {
+    ROS_WARN_STREAM(
+        "The publisher message will be changed to \"" << req.inputString
+            << "\"");
+    message = req.inputString;
+    resp.outputString = req.inputString;
+    return true;
+  }
 }
 
 /**
@@ -66,7 +77,7 @@ int main(int argc, char **argv) {
   ros::Rate loop_rate(10);
 
   ros::ServiceServer service = n.advertiseService("outputService",
-                                                     &changeOutput);
+                                                  &changeOutput);
 
   /**
    * A count of how many messages we have sent. This is used to create
