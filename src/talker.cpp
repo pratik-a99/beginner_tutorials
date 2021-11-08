@@ -74,7 +74,27 @@ int main(int argc, char **argv) {
   ros::Publisher chatter_pub = n.advertise < std_msgs::String
       > ("chatter", 1000);
 
-  ros::Rate loop_rate(10);
+  int countRate;
+
+  n.getParam("/count_rate", countRate);
+  if(countRate < 1){
+    ROS_FATAL_STREAM("The rate of counting cannot be negative or zero");
+    ROS_INFO_STREAM("Count rate set to default value of 10");
+    countRate = 10;
+  }
+  else if (countRate > 10 && countRate <= 20) {
+    ROS_WARN_STREAM("Count rate too high");
+  }
+  else if (countRate > 20) {
+    ROS_FATAL_STREAM("Count rate higher than permissable");
+    ROS_INFO_STREAM("Count rate set to default value of 10");
+    countRate = 10;
+  }
+  else {
+    ROS_INFO_STREAM("Enjoy the counting at your rate set at " << countRate);
+  }
+
+  ros::Rate loop_rate(countRate);
 
   ros::ServiceServer service = n.advertiseService("outputService",
                                                   &changeOutput);
