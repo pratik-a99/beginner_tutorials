@@ -1,0 +1,6 @@
+<launch>
+    <arg name="count_rate" default="10"/>
+    <node pkg = "beginner_tutorials" type = "talker" name = "publisher_node" output = "screen" />
+    <param name = "count_rate" value = "$(arg count_rate)"/>
+    <node pkg = "beginner_tutorials" type = "listener" name = "subscriber_node" output = "screen" />
+</launch>
