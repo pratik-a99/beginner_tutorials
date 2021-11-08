@@ -13,18 +13,26 @@
 
 std::string message = "Yay! I can now count till ";
 
+/**
+ * @fn bool changeOutput(beginner_tutorials::serviceType::Request&, beginner_tutorials::serviceType::Response&)
+ * @brief A service callback function which changes the output message of the talker
+ *
+ * @param req
+ * @param resp
+ * @return true or false
+ */
 bool changeOutput(beginner_tutorials::serviceType::Request &req,
                   beginner_tutorials::serviceType::Response &resp) {
-  ROS_DEBUG_STREAM("The service has been called successully");
+  ROS_DEBUG_STREAM("The service has been called successully");  // Debug log
 
   if (req.inputString.empty()) {
-    ROS_ERROR_STREAM("An empty string was given as service input");
-    ROS_FATAL_STREAM("The service will be stopped due to incorrect input");
+    ROS_ERROR_STREAM("An empty string was given as service input");  // Error log
+    ROS_FATAL_STREAM("The service will be stopped due to incorrect input");  // Fatal log
     return false;
   } else {
     ROS_WARN_STREAM(
         "The publisher message will be changed to \"" << req.inputString
-            << "\"");
+            << "\"");                 // Warn log
     message = req.inputString;
     resp.outputString = req.inputString;
     return true;
@@ -77,20 +85,21 @@ int main(int argc, char **argv) {
   int countRate;
 
   n.getParam("/count_rate", countRate);
-  if(countRate < 1){
+
+  /**
+   * Condition to check the given param for count rate
+   */
+  if (countRate < 1) {
     ROS_FATAL_STREAM("The rate of counting cannot be negative or zero");
     ROS_INFO_STREAM("Count rate set to default value of 10");
     countRate = 10;
-  }
-  else if (countRate > 10 && countRate <= 20) {
+  } else if (countRate > 10 && countRate <= 20) {
     ROS_WARN_STREAM("Count rate too high");
-  }
-  else if (countRate > 20) {
+  } else if (countRate > 20) {
     ROS_FATAL_STREAM("Count rate higher than permissable");
     ROS_INFO_STREAM("Count rate set to default value of 10");
     countRate = 10;
-  }
-  else {
+  } else {
     ROS_INFO_STREAM("Enjoy the counting at your rate set at " << countRate);
   }
 
@@ -104,6 +113,10 @@ int main(int argc, char **argv) {
    * a unique string for each message.
    */
   auto count = 0;
+
+  /**
+   * Loop to publish the message with defined rate
+   */
   while (ros::ok()) {
     /**
      * This is a message object. You stuff it with data, and then publish it.
@@ -114,7 +127,7 @@ int main(int argc, char **argv) {
     ss << message << count;
     msg.data = ss.str();
 
-    ROS_INFO("%s", msg.data.c_str());
+    ROS_INFO_STREAM(msg.data.c_str());
 
     /**
      * The publish() function is how you send messages. The parameter

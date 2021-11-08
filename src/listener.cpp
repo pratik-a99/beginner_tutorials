@@ -11,8 +11,14 @@
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
+/**
+ * @fn void chatterCallback(const std_msgs::String::ConstPtr&)
+ * @brief A subcriver callback function to print out the recieved message
+ *
+ * @param msg
+ */
 void chatterCallback(const std_msgs::String::ConstPtr &msg) {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+  ROS_INFO_STREAM("I heard: " << msg->data.c_str());
 }
 
 int main(int argc, char **argv) {
