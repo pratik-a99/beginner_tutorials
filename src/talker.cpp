@@ -1,7 +1,25 @@
 /**
+ * Copyright (C) MIT.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
  * @copyright  MIT License (c) 2021 Pratik Acharya
  * @file  talker.cpp
- * @brief A publisher and service tutorial C++ node
+ * @brief A publisher and service tutorial C++ node, which includes a transform
+ * function which broadcasts the position and orientation of a coordinate frame
  * @author Pratik Acharya
  */
 
@@ -11,8 +29,7 @@
 #include "std_msgs/String.h"
 #include "tf/transform_broadcaster.h"
 #include "beginner_tutorials/serviceType.h"
-
-std::string message = "Yay! I can now count till ";
+#include "beginner_tutorials/talker.h"
 
 /**
  * @fn bool changeOutput(beginner_tutorials::serviceType::Request&, beginner_tutorials::serviceType::Response&)
@@ -139,16 +156,23 @@ int main(int argc, char **argv) {
      * in the constructor above.
      */
 
+    /**
+     * Creating a broadcaster for the transform function
+     */
     static tf::TransformBroadcaster br;
     tf::Transform transform;
 
+    // Setting the origin for the coordinate frame
     transform.setOrigin(tf::Vector3(count, 2.0, 3.0));
     tf::Quaternion q;
     q.setRPY(1, 2, count);
     transform.setRotation(q);
+
+    // Broadcasting the transformation
     br.sendTransform(
         tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
 
+    // Publishing message to chatter topic
     chatter_pub.publish(msg);
 
     ros::spinOnce();
