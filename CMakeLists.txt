@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   genmsg
   message_generation
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -108,6 +109,8 @@ catkin_package(
 #  LIBRARIES beginner_tutorials
 #  CATKIN_DEPENDS roscpp rospy std_msgs
 #  DEPENDS system_lib
+  CATKIN_DEPENDS
+  std_msgs
 )
 
 ###########
