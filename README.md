@@ -1,7 +1,7 @@
 # beginner_tutorials
 [![GitHub license](https://badgen.net/github/license/Naereen/Strapdown.js)](LICENSE.md)
 
-This repository contains a ROS C++ publisher(talker.cpp) that can count till infinity(if possible) and a ROS C++ subscriber(listener.cpp) that can listen to the talker until the end of time. The talker has a service that can be used to change the published message of the talker. Two launch files are provided, which can take arguments and open both nodes simultaneously. 
+This repository contains a ROS C++ publisher(talker.cpp) that can count till infinity(if possible) and a ROS C++ subscriber(listener.cpp) that can listen to the talker until the end of time. The talker has a service that can be used to change the published message of the talker. Two launch files are provided, which can take arguments and open both nodes simultaneously. Tf is used to demonstrate tranfrom functions. Rostests are also used to demonstrate Level 2 testing framework. Rosbag has also been used to record the topics.
 
 ## Dependencies
 * ROS (Melodic preferred)
@@ -60,5 +60,49 @@ Use the following command, after starting the nodes, to run call the service. Th
 ```
 rosservice call /outputService "Service is working"
 ```
+#### TF 
+Tf has been added to the talker which can be run using the above mentioned launch files command and can be inspected as below(in a new terminal) : 
+```
+rosrun tf tf_echo world talk
+```
+The above command will output the transformed frames on the console.
+
+To view the rqt tree of the tf : 
+```
+rosrun rqt_tf_tree rqt_tf_tree
+```
+#### Rostest
+Rostest has been added to the repository, which can be checked via the following command line
+
+```
+rostest beginner_tutorials ros_test.launch 
+```
+#### Rosbag
+To enable rosbag recording, the `record` argument can be set to `true` while using the above-mentioned launch files. `record` is set to `false` while in default, hence no recording will happen until it's set `true`. The recorded rosbags will be stored in the results folder. For example : 
+```
+roslaunch beginner_tutorials launchfile_xterm.launch count_rate:=1 record:=true
+```
+or
+```
+roslaunch beginner_tutorials launchfile.launch count_rate:=1 record:=true
+```
+
+The recorded rosbag file can be inspected by using : 
+```
+rosbag info recording.bag 
+```
+
+To replay the rosbags, first start roscore, and the listener node in two separate terminal windows as below
+```
+roscore
+```
+```
+rosrun beginner_tutorials listener 
+```
+And then replay then play the recordings from the recorded rosbag, which will be verified when the listener node starts showing the output stream.
+```
+rosbag play recording.bag
+```
+
 ### Using Releases
-If the the repository is downloaded as a zip via `Week10_HW_Release`, extract the file to `<your_ros_workspace>/src` (eg. `catkin_ws/src`) and rename the folder to `beginner_tutorials`
+If the the repository is downloaded as a zip via `Week11_HW_Release`, extract the file to `<your_ros_workspace>/src` (eg. `catkin_ws/src`) and rename the folder to `beginner_tutorials`
