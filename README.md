@@ -28,6 +28,7 @@ catkin_make
 ```
 
 ### Executing the code
+Note : Use `Ctrl + C` to stop roscore and end the execution for all the codes mentioned below \
 Run the following three commands in three different terminals 
 ```
 roscore
@@ -89,7 +90,7 @@ roslaunch beginner_tutorials launchfile.launch count_rate:=1 record:=true
 
 The recorded rosbag file can be inspected by using : 
 ```
-rosbag info recording.bag 
+rosbag info src/beginner_tutorials/result/recording.bag
 ```
 
 To replay the rosbags, first start roscore, and the listener node in two separate terminal windows as below
