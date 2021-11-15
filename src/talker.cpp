@@ -9,6 +9,7 @@
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "tf/transform_broadcaster.h"
 #include "beginner_tutorials/serviceType.h"
 
 std::string message = "Yay! I can now count till ";
@@ -137,6 +138,17 @@ int main(int argc, char **argv) {
      * given as a template parameter to the advertise<>() call, as was done
      * in the constructor above.
      */
+
+    static tf::TransformBroadcaster br;
+    tf::Transform transform;
+
+    transform.setOrigin(tf::Vector3(count, 2.0, 3.0));
+    tf::Quaternion q;
+    q.setRPY(1, 2, count);
+    transform.setRotation(q);
+    br.sendTransform(
+        tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
+
     chatter_pub.publish(msg);
 
     ros::spinOnce();
