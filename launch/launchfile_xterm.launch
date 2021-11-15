@@ -1,6 +1,8 @@
 <launch>
     <arg name="count_rate" default="10"/>
+    <arg name = "record" default = "false"/>
     <node pkg = "beginner_tutorials" type = "talker" name = "publisher_node" launch-prefix="xterm -e" output = "screen"/>
     <param name = "count_rate" value = "$(arg count_rate)"/>
     <node pkg = "beginner_tutorials" type = "listener" name = "subscriber_node" output = "screen" launch-prefix="xterm -e"/>
+    <node pkg = "rosbag" type = "record" name = "record" args="--duration=15 -a -O $(find beginner_tutorials)/result/recording.bag" if="$(arg record)"/>
 </launch>
